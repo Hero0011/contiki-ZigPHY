@@ -18,7 +18,11 @@ PROCESS_THREAD(zigphy_tx_process, ev, data)
 	NETSTACK_RADIO.set_value (RADIO_PARAM_RX_MODE, 0); //disable Address Filtering
 	while(1) {
 		if (NETSTACK_RADIO.read((void*)packet, 256) > 0) {
-			printf("received %d\n", ++i);
+			int8_t rssi;
+			NETSTACK_RADIO.get_value(RADIO_PARAM_RSSI, &rssi);
+			printf("%s\n\r", packet);
+			printf("received %d\n\r", ++i);
+			printf("RSSI: %d\n\r", rssi);
 		}
 	}
 	PROCESS_END();
